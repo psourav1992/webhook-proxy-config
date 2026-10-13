@@ -1,0 +1,56 @@
+routing-rules:
+  version: "1.0"
+
+  rules:
+    - id: "rule-github-actions"
+      description: "Route workflow and push events targeting main branches to GitHub Actions topic"
+      match:
+        event: "push"
+        ref-pattern: "^refs/heads/(main|master)$"
+        repositories:
+          - "org-core/core-api"
+          - "org-core/auth-service"
+      target-topics:
+        - "webhook.events.github-actions"
+
+    - id: "rule-jenkins-ci"
+      description: "Route pull request events to Jenkins CI pipeline topic"
+      match:
+        event: "pull_request"
+        ref-pattern: ".*"
+        repositories:
+          - "org-legacy/monolith"
+          - "org-legacy/payment-gateway"
+      target-topics:
+        - "webhook.events.jenkins"
+
+    - id: "rule-argo-cd"
+      description: "Route deployment and tag push events for GitOps delivery to Argo CD"
+      match:
+        event: "create"
+        ref-pattern: "^refs/tags/v[0-9]+\\.[0-9]+\\.[0-9]+.*$"
+        repositories:
+          - "org-cloud/k8s-manifests"
+      target-topics:
+        - "webhook.events.argo"
+
+    - id: "rule-urbancode"
+      description: "Route release branches to UrbanCode Deploy topic"
+      match:
+        event: "push"
+        ref-pattern: "^refs/heads/release/.*$"
+        repositories:
+          - "org-enterprise/banking-core"
+      target-topics:
+        - "webhook.events.urbancode"
+
+    - id: "rule-multi-target-broadcast"
+      description: "Fan-out push events on release branches to both Argo CD and Jenkins"
+      match:
+        event: "push"
+        ref-pattern: "^refs/heads/release/.*$"
+        repositories:
+          - "org-core/core-api"
+      target-topics:
+        - "webhook.events.argo"
+        - "webhook.events.jenkins"
