@@ -6,8 +6,6 @@ rules:
       event: "push"
       refPattern: "^refs/heads/(main|master)$"
       repositories:
-        - "org-core/core-api"
-        - "org-core/auth-service"
         - "brati-backend"
     targetTopics:
       - "webhook.events.github-actions"
@@ -18,8 +16,7 @@ rules:
       event: "pull_request"
       refPattern: ".*"
       repositories:
-        - "org-legacy/monolith"
-        - "org-legacy/payment-gateway"
+        - "brati-backend"
     targetTopics:
       - "webhook.events.jenkins"
 
@@ -29,7 +26,7 @@ rules:
       event: "create"
       refPattern: "^refs/tags/v[0-9]+\\.[0-9]+\\.[0-9]+.*$"
       repositories:
-        - "org-cloud/k8s-manifests"
+        - "brati-backend"
     targetTopics:
       - "webhook.events.argo"
 
@@ -39,6 +36,6 @@ rules:
       event: "push"
       refPattern: "^refs/heads/release/.*$"
       repositories:
-        - "org-enterprise/banking-core"
+        - "brati-backend"
     targetTopics:
       - "webhook.events.urbancode"
