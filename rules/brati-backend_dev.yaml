@@ -41,4 +41,4 @@ rules:
       repositories:
         - "org-enterprise/banking-core"
     targetTopics:
-      - "
+      - "webhook.events.urbancode"
