@@ -10,6 +10,7 @@ routing-rules:
         repositories:
           - "org-core/core-api"
           - "org-core/auth-service"
+          - "brati-backend
       target-topics:
         - "webhook.events.github-actions"
 
